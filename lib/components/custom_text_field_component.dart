@@ -7,12 +7,12 @@ class CustomTextFieldComponent extends StatelessWidget {
   final String label;
   final bool obscureText;
 
-  CustomTextFieldComponent({
+  const CustomTextFieldComponent({
     super.key,
     required this.controller,
     required this.hintText,
     this.icon,
-    this. obscureText = false,
+    this.obscureText = false,
     required this.label,
   });
 
