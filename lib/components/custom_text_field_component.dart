@@ -12,7 +12,7 @@ class CustomTextFieldComponent extends StatelessWidget {
     required this.controller,
     required this.hintText,
     this.icon,
-    this. obscureText = false,
+    this.obscureText = false,
     required this.label,
   });
 
