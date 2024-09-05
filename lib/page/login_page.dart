@@ -89,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
           email: emailController.text, password: passwordController.text);
     } catch (error) {
       setState(() {
+        print("Усвідомленний конфлікт");
         errorMessage = error.toString();
       });
     }
