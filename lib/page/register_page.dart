@@ -29,74 +29,113 @@ final TextEditingController repeatPasswordController = TextEditingController();
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Lottie.asset('assets/animated/Aniki Hamster.json', height: 250),
+              _buildLottieAnimation(),
               const SizedBox(height: 25),
-              Text(
-                'Register'.toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 40,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w700,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              CustomTextFieldComponent(
+              _buildTitle(),
+              _buildCustomTextField(
                 controller: emailController,
                 label: 'Email',
-                icon: const Icon(Icons.email_outlined),
+                icon: Icons.email_outlined,
                 hintText: 'Enter your email',
               ),
               const SizedBox(height: 10),
-              CustomTextFieldComponent(
+              _buildCustomTextField(
                 controller: passwordController,
                 label: 'Password',
-                icon: const Icon(Icons.remove_red_eye),
-                hintText: 'Edter your password',
-              ),
-              const SizedBox(height: 10),
-              CustomTextFieldComponent(
-                controller: repeatPasswordController,
-                label: 'Repeat Password',
-                icon: const Icon(Icons.remove_red_eye),
+                icon: Icons.remove_red_eye,
                 hintText: 'Enter your password',
               ),
+              const SizedBox(height: 10),
+              _buildCustomTextField(
+                controller: repeatPasswordController,
+                label: 'Repeat Password',
+                icon: Icons.remove_red_eye,
+                hintText: 'Repeat your password',
+              ),
               const SizedBox(height: 40),
-              ElevatedButton(
-                  onPressed: () => signUp(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      'Sign Up'.toUpperCase(),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 19,
-                        fontFamily: 'Montserrat',
-                      ),
-                    ),
-                  )
-              ), const SizedBox(height: 20),
-              TextButton(
-                onPressed: widget.onTap,
-                child: const Text('Login now'),
-              )
+              _buildSignUpButton(),
+              const SizedBox(height: 20),
+              _buildLoginButton(),
             ],
-          )),
+          ),
+      ),
     );
   }
 
-  void signUp() async {
-    if (passwordController.text != repeatPasswordController.text) {
-      showError();
-    } else {
-      try{
-       await _authService.signUpWithEmail(email: emailController.text, password: passwordController.text);
-      } catch (error) {
+Widget _buildLottieAnimation() {
+  return Lottie.asset('assets/animated/Aniki Hamster.json', height: 250);
+}
 
-      }
+Widget _buildTitle() {
+  return Text(
+    'Register'.toUpperCase(),
+    style: const TextStyle(
+      fontSize: 40,
+      fontFamily: 'Montserrat',
+      fontWeight: FontWeight.w700,
+    ),
+    textAlign: TextAlign.center,
+  );
+}
+
+Widget _buildCustomTextField({
+  required TextEditingController controller,
+  required String label,
+  required IconData icon,
+  required String hintText,
+}) {
+  return TextField(
+    controller: controller,
+    decoration: InputDecoration(
+      labelText: label,
+      prefixIcon: Icon(icon),
+      hintText: hintText,
+      border: const OutlineInputBorder(),
+    ),
+  );
+}
+
+Widget _buildSignUpButton() {
+  return ElevatedButton(
+    onPressed: () => signUp(),
+    child: Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Text(
+        'Sign Up'.toUpperCase(),
+        style: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 19,
+          fontFamily: 'Montserrat',
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _buildLoginButton() {
+  return TextButton(
+    onPressed: widget.onTap,
+    child: const Text('Login now'),
+  );
+}
+
+void signUp() async {
+  if (passwordController.text != repeatPasswordController.text) {
+    showError('Passwords do not match');
+  } else {
+    try {
+      await _authService.signUpWithEmail(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      // Handle successful signup, e.g., navigate to another page
+    } catch (error) {
+      showError('Signup failed');
     }
   }
+}
 
-   void showError (){
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Паролі не спвпадають')));
-   }
+void showError(String message) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+}
 }
