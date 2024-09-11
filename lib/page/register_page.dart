@@ -48,7 +48,7 @@ final TextEditingController repeatPasswordController = TextEditingController();
               const SizedBox(height: 10),
               _buildCustomTextField(
                 controller: repeatPasswordController,
-                label: 'Repeat Password',
+                label: 'Repeat Password ',
                 icon: Icons.remove_red_eye,
                 hintText: 'Repeat your password',
               ),
