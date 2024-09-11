@@ -44,7 +44,7 @@ final TextEditingController repeatPasswordController = TextEditingController();
                 controller: emailController,
                 label: 'Email',
                 icon: const Icon(Icons.email_outlined),
-                hintText: 'Edter your email',
+                hintText: 'Enter your email',
               ),
               const SizedBox(height: 10),
               CustomTextFieldComponent(

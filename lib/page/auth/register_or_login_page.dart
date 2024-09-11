@@ -22,7 +22,7 @@ class _RegisterOrLoginPageState extends State<RegisterOrLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 1200),
+        duration: const Duration(milliseconds: 1200 ),
         transitionBuilder: (Widget child, Animation<double> animation) {
           const begin = 0.8;
           const end = 1.0;

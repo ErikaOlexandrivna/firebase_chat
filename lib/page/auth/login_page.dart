@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
       obscureText: true,
       label: 'Password',
       icon: const Icon(Icons.remove_red_eye),
-      hintText: 'Enter your password',
+      hintText: 'Enter your password ',
     );
   }
 

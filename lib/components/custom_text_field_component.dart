@@ -19,9 +19,9 @@ class CustomTextFieldComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: controller,
+      controller: controller ,
       obscureText: obscureText,
-      decoration: InputDecoration(
+      decoration: InputDecoration (
           border: const OutlineInputBorder(),
           hintText: hintText,
           prefixIcon: icon,

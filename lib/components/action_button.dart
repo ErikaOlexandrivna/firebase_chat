@@ -22,7 +22,7 @@ class ActionButton extends StatelessWidget {
         textStyle: const TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 19,
-          fontFamily: 'Montserrat',
+          fontFamily: 'Montserrat' ,
         ),
       ),
       child: Text(text.toUpperCase()),
