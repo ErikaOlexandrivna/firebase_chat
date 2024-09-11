@@ -1,5 +1,5 @@
-import 'package:firebase_chat/page/login_page.dart';
-import 'package:firebase_chat/page/register_page.dart';
+import 'package:firebase_chat/page/auth/login_page.dart';
+import 'package:firebase_chat/page/auth/register_page.dart';
 import 'package:flutter/material.dart';
 
 class RegisterOrLoginPage extends StatefulWidget {
