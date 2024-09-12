@@ -22,15 +22,19 @@ class _RegisterOrLoginPageState extends State<RegisterOrLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 1200 ),
         transitionBuilder: (Widget child, Animation<double> animation) {
-          return FadeTransition(
-            opacity: animation,
-            child: child,
-          );
+          const begin = 0.8;
+          const end = 1.0;
+          const curve = Curves.easeInOut;
+          final scaleAnimation = Tween<double>(begin: begin, end: end)
+              .animate(CurvedAnimation(parent: animation, curve: curve));
 
+          return ScaleTransition(scale: scaleAnimation, child: child);
         },
-        child: showLoginPage ? LoginPage(onTap: togglePages) : RegisterPage(onTap: togglePages),
+        child: showLoginPage
+            ? LoginPage(onTap: togglePages)
+            : RegisterPage(onTap: togglePages),
       ),
     );
   }
