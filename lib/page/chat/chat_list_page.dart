@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_chat/const.dart';
 import 'package:firebase_chat/page/chat/chat_room_page.dart';
 import 'package:flutter/material.dart';
+import'package:firebase_chat/models/user_model.dart';
 
 class ChatListPage extends StatelessWidget {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -41,27 +42,36 @@ class ChatListPage extends StatelessWidget {
           return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                final user = snapshot.data!.docs[index];
-
-                if (user.id == _firebaseAuth.currentUser!.uid) {
+                final userDoc = snapshot.data!.docs[index];
+                final userModel = UserModel.fromMap(userDoc.data() as Map<String, dynamic>);
+                if (userModel.uid == _firebaseAuth.currentUser!.uid) {
                   return const SizedBox.shrink();
                 }
-                return ListTile(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChatRoomPage(
-                          userEmail: user['email'],
-                          userUID: user['uid'],
+                return Card(
+                  margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  elevation: 2,
+                  child: ListTile(
+                    contentPadding:  const EdgeInsets.all(12),
+                    leading:  const CircleAvatar(
+                      backgroundColor: Colors.blueAccent,
+                    ),
+
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatRoomPage(
+                            user: userModel,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  title: Text(
-                    user['email'],
+                      );
+                    },
+                    title:  const Text(
+                      style: TextStyle(color:Colors.white,fontWeight:FontWeight.bold ),
+                      user,
+                    ),
+                    subtitle: Text(userModel.uid),
                   ),
-                  subtitle: Text(user['uid']),
                 );
               });
         }

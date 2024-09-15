@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_chat/services/chat_service.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_chat/models/user_model.dart';
 
 class ChatRoomPage extends StatefulWidget {
-  final String userEmail;
-  final String userUID;
+  final UserModel user;
 
-  const ChatRoomPage({super.key, required this.userEmail, required this.userUID});
+  const ChatRoomPage({super.key,  required this.user});
 
   @override
   State<ChatRoomPage> createState() => _ChatRoomPageState();
@@ -21,7 +21,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.userEmail),
+          title: Text(widget.user.email),
+          centerTitle: true,
         ),
         body: Column(
           children: [
@@ -36,7 +37,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   Widget _buildMessagingList() {
     return StreamBuilder(
       stream: _chatService.getMessage(
-          userId: _firebaseAuth.currentUser!.uid, otherUserId: widget.userUID),
+          userId: _firebaseAuth.currentUser!.uid, otherUserId: widget.user.uid),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(
@@ -79,17 +80,29 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   Widget _buildMessagingInput() {
     return Container(
       color: Colors.white30,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(8),
       child: Row(
         children: [
           Expanded(
             child: TextField(
               controller: messageController,
+          decoration: InputDecoration(
+          hintText: 'Type a message',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide.none,
+          ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+
+          ),
+
             ),
           ),
+
+          const SizedBox(width:8),
           IconButton(
             onPressed: () => sendMessage(),
-            icon: const Icon(Icons.send),
+            icon: const Icon(Icons.send,color: Colors.blueAccent,),
           ),
         ],
       ),
@@ -102,7 +115,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     } else {
       _chatService.sendMessage(
         message: messageController.text,
-        receiverId: widget.userUID,
+        receiverId: widget.user.uid,
       );
       messageController.clear();
     }
